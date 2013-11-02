@@ -1,0 +1,12 @@
+.lock-waf_darwin_build
+
+# Ignore build generated files
+build/*.pbpack*
+build/*.auto*
+build/c4che
+build/*.log
+build/*.bin
+build/*.map
+build/*.elf
+build/src
+build/.*

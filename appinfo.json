@@ -1,0 +1,17 @@
+{
+  "uuid": "db55c162-c177-4f56-852b-8c27f2301e62",
+  "shortName": "Potayto Potahto",
+  "longName": "Pebble Conversion System",
+  "companyName": "Girlgrammer",
+  "versionCode": 1,
+  "versionLabel": "1.0.0",
+  "watchapp": {
+    "watchface": false
+  },
+  "appKeys": {
+    "dummy": 0
+  },
+  "resources": {
+    "media": []
+  }
+}
