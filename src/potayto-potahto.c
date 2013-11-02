@@ -12,6 +12,7 @@ static char *converted_temperature_string;
 static int temperature = 32;							/* Default 0C */
 static int converted_temperature = 0;
 static bool english_units = 1;						/* Fahrenheit default */
+static bool done = false;
 
 static void update_display(){
 	if( english_units ){
@@ -47,7 +48,6 @@ static void increase_temperature(){
 	else{
 		converted_temperature = convert_to_fahrenheit( temperature );
 	}
-	update_display();
 }
 
 static void decrease_temperature(){
@@ -59,7 +59,6 @@ static void decrease_temperature(){
 	else{
 		converted_temperature = convert_to_fahrenheit( temperature );
 	}
-	update_display();
 }
 
 static void switch_units(){
@@ -68,25 +67,27 @@ static void switch_units(){
 	converted_temperature = temp;
 	
 	english_units = !english_units;
-	update_display();
 }
 
 static void select_click_handler( ClickRecognizerRef recognizer, void *context ) {
   switch_units();
+	update_display();
 }
 
 static void up_click_handler( ClickRecognizerRef recognizer, void *context ) {
   increase_temperature();
+	update_display();
 }
 
 static void down_click_handler( ClickRecognizerRef recognizer, void *context ) {
   decrease_temperature();
+	update_display();
 }
 
 static void click_config_provider( void *context ) {
   window_single_click_subscribe( BUTTON_ID_SELECT, select_click_handler );
-  window_single_click_subscribe( BUTTON_ID_UP, up_click_handler );
-  window_single_click_subscribe( BUTTON_ID_DOWN, down_click_handler );
+  window_single_repeating_click_subscribe( BUTTON_ID_UP, 400, up_click_handler );
+	window_single_repeating_click_subscribe( BUTTON_ID_DOWN, 400, down_click_handler );
 }
 
 static void window_load( Window *window ) {
@@ -114,9 +115,6 @@ static void window_unload( Window *window ) {
 static void init( void ) {
 	temperature_string = malloc( MAX_TEMPERATURE_BYTES );
 	converted_temperature_string = malloc( MAX_TEMPERATURE_BYTES );
-	
-	APP_LOG( APP_LOG_LEVEL_DEBUG, "%d", MAX_TEMPERATURE_BYTES );
-	APP_LOG( APP_LOG_LEVEL_DEBUG, "%d", MAX_TEMPERATURE_BYTES );
 	
 	window = window_create();
   window_set_click_config_provider( window, click_config_provider );
